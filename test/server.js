@@ -40,6 +40,50 @@ describe('server', () => {
         server.close();
     });
 
+    it('athena', async () => {
+        let server = new Server({
+            athena: (req, res) => {
+                if (req.path === '/404') {
+                    res.end('404');
+                    return false;
+                }
+                return true;
+            }
+        });
+        server.use('/a/b/c', ctx => ctx.pathname);
+        server.listen(3002);
+
+        await new Promise(resolve => setTimeout(resolve, 10));
+        let ret = {};
+        let req = http.request('http://localhost:3002/a/b/c', res => {
+            ret.statusCode = res.statusCode;
+            ret.headers = res.headers;
+            res.on('data', chunk => {
+                ret.body = chunk.toString();
+            });
+        });
+        req.end();
+        await new Promise(resolve => setTimeout(resolve, 10));
+        expect(ret.headers['content-type']).to.be.equal('application/json; charset=utf8');
+        expect(ret.statusCode).to.be.equal(200);
+        expect(ret.body).to.be.equal('"/a/b/c"');
+
+        let athenaRet = null;
+        req = http.request('http://localhost:3002/404', res => {
+            ret.statusCode = res.statusCode;
+            ret.headers = res.headers;
+            res.on('data', chunk => {
+                athenaRet = chunk.toString();
+            });
+        });
+        req.end();
+        await new Promise(resolve => setTimeout(resolve, 10));
+        expect(ret.statusCode).to.be.equal(200);
+        expect(athenaRet).to.be.equal('404');
+
+        server.close();
+    });
+
     it('take', async () => {
         let server = new Server();
 

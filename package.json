@@ -1,6 +1,6 @@
 {
     "name": "hserver",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "hserver",
     "main": "index.js",
     "directories": {
