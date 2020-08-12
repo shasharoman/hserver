@@ -42,12 +42,12 @@ describe('server', () => {
 
     it('athena', async () => {
         let server = new Server({
-            athena: (req, res) => {
+            athena: async (req, res, fn) => {
                 if (req.path === '/404') {
                     res.end('404');
-                    return false;
+                    return;
                 }
-                return true;
+                await fn();
             }
         });
         server.use('/a/b/c', ctx => ctx.pathname);
