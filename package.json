@@ -1,5 +1,5 @@
 {
-    "name": "hserver",
+    "name": "@shasharoman/hserver",
     "version": "1.2.0",
     "description": "hserver",
     "main": "index.js",
@@ -27,7 +27,7 @@
     "dependencies": {
         "debug": "4.1.1",
         "lodash": "4.17.19",
-        "ptree": "https://github.com/shasharoman/ptree.git#v1.0.0"
+        "ptree": "git+https://github.com/shasharoman/ptree.git#v1.0.0"
     },
     "devDependencies": {
         "chai": "4.2.0",
