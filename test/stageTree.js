@@ -37,4 +37,48 @@ describe('stage tree', () => {
         expect(apiInvoke.accept[0] === fn).to.be.equal(true);
         expect(apiInvoke.output[0] === fn).to.be.equal(true);
     });
+
+    it('onStage, throw error in accept will be catch in leave stage', async () => {
+        let fn = () => {};
+        let errFn = () => {
+            throw new Error('mock error');
+        };
+        let errMsg = '';
+        let tree = new StageTree(new ptree.Tree());
+
+        tree.onStage('enter', '*', '/', fn);
+        tree.onStage('input', 'GET', '/api', fn);
+        tree.onStage('accept', 'GET', '/api', errFn);
+        tree.onStage('output', 'GET', '/api', fn);
+        tree.onStage('leave', '*', '/', (ret, ctx, err) => {
+            errMsg = err.message;
+        });
+
+        try {
+            await tree.process('GET', '/api', {}, () => {});
+        }
+        catch (err) {
+            expect(err.message).to.be.equal('mock error');
+        }
+
+        expect(errMsg).to.be.equal('mock error');
+    });
+
+    it('onStage, throw error in 404:notFound will be catch in leave stage', async () => {
+        let fn = () => {};
+        let errFn = () => {
+            throw new Error('mock error');
+        };
+        let errMsg = '';
+        let tree = new StageTree(new ptree.Tree());
+
+        tree.onStage('enter', '*', '/', fn);
+        tree.onStage('accept', 'GET', '/', errFn);
+        tree.onStage('leave', '*', '/', (ret, ctx, err) => {
+            errMsg = err.message;
+        });
+
+        await tree.process('GET', '/app/xxx', {}, () => {});
+        expect(errMsg).to.be.equal('Not Found');
+    });
 });

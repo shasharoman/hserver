@@ -1,6 +1,6 @@
 {
     "name": "@shasharoman/hserver",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "hserver",
     "main": "index.js",
     "directories": {
