@@ -26,8 +26,8 @@
     "homepage": "https://github.com/shasharoman/hserver#readme",
     "dependencies": {
         "debug": "4.1.1",
-        "lodash": "4.17.19",
-        "ptree": "git+https://github.com/shasharoman/ptree.git#v1.0.0"
+        "lodash": "4.17.21",
+        "@shasharoman/ptree": "1.0.1"
     },
     "devDependencies": {
         "chai": "4.2.0",

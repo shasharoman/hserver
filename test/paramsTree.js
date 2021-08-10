@@ -1,5 +1,5 @@
 const ParamsTree = require('../lib/ParamsTree');
-const ptree = require('ptree');
+const ptree = require('@shasharoman/ptree');
 const expect = require('chai').expect;
 
 describe('params tree', () => {
