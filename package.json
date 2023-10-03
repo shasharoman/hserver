@@ -25,7 +25,7 @@
     },
     "homepage": "https://github.com/shasharoman/hserver#readme",
     "dependencies": {
-        "debug": "4.1.1",
+        "debug": "4.3.1",
         "lodash": "4.17.21",
         "@shasharoman/ptree": "1.0.1"
     },
